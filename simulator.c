@@ -22,7 +22,7 @@ typedef struct stack_element stack_element;
 struct stack_element
 {
     int64_t            number;
-    stack_element*      next;
+    stack_element      *next;
 };
 
 /* 
@@ -30,19 +30,20 @@ struct stack_element
  * at the top most element. 
  */
 struct stack {
-    stack_element*      top;
+    stack_element      *top;
+
 };
 
-stack_element* create_stack_element(int64_t numb)
+stack_element *create_stack_element(int64_t numb)
 {
-    stack_element* new_element = malloc(sizeof(stack_element));
+    stack_element *new_element = malloc(sizeof(stack_element));
     new_element->number = numb;
     return new_element;
 }
 
-void push(stack* stk, int64_t numb)
+void push(stack *stk, int64_t numb)
 {
-    stack_element* new_element = create_stack_element(numb);
+    stack_element *new_element = create_stack_element(numb);
     
     if (stk->top != NULL) 
         new_element->next = stk->top;
@@ -50,12 +51,12 @@ void push(stack* stk, int64_t numb)
     stk->top = new_element;
 }
 
-int64_t pop(stack* stk)
+int64_t pop(stack *stk)
 {
     int64_t save_numb = 0;
 
     if (stk->top != NULL) {
-        stack_element* marked_for_deletion = stk->top; /* Avoid memory leak */
+        stack_element *marked_for_deletion = stk->top; /* Avoid memory leak */
         save_numb = marked_for_deletion->number; /* Save marked's number */
 
         stk->top = stk->top->next;
@@ -68,7 +69,7 @@ int64_t pop(stack* stk)
 /*
  * Add and pop top two elements of stack and push the sum.
  */
-void add(stack* stk)
+void add(stack *stk)
 {
     if (stk->top == NULL) {
         printf("Stack is empty\n");
@@ -81,7 +82,7 @@ void add(stack* stk)
 /*
  * Push a copy of what's at the top of the stack back onto the stack
  */
-void dup(stack* stk)
+void dup(stack *stk)
 {
     if (stk->top == NULL) {
         printf("Stack is empty\n");
@@ -94,9 +95,9 @@ void dup(stack* stk)
 /* 
  * Print starts from top of stack
  */
-void print_stack(stack* stk)
+void print_stack(stack *stk)
 {
-    stack_element* traverser = stk->top;
+    stack_element *traverser = stk->top;
 
     while (traverser != NULL) {
         printf("%lld\n", traverser->number);
@@ -107,7 +108,7 @@ void print_stack(stack* stk)
 /*
  * Print the top most element of the stack
  */
-void print_top(stack* stk)
+void print_top(stack *stk)
 {
     if (stk->top == NULL) {
         printf("Stack is empty\n");
@@ -115,33 +116,4 @@ void print_top(stack* stk)
     }
 
     printf("%lld\n", stk->top->number);
-}
-
-int main()
-{
-    stack* my_stack = malloc(sizeof(stack));
-
-    printf("Simulator started\n");
-    printf("-----------------\n");
-
-    dup(my_stack);
-
-    push(my_stack, (int64_t)81);
-    push(my_stack, (int64_t)15);
-    push(my_stack, (int64_t)-97);
-    push(my_stack, (int64_t)1000);
-    push(my_stack, (int64_t)59010);
-
-    dup(my_stack);
-    print_stack(my_stack);
-
-    for (int i = 0; i < 6; i++) {
-        add(my_stack);
-        printf("\n");
-        print_stack(my_stack);
-    }
-
-    printf("\n");
-    dup(my_stack);
-    print_stack(my_stack);
 }
