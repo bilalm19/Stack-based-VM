@@ -4,11 +4,23 @@
 
 #include "simulator.c"
 
+#define RESET "\033[0m"
+#define RED   "\033[31m"
+#define GREEN "\033[32m" 
+
 #define ARRAY_SIZE 5
 
-int test_failed()
+void free_memory(stack *stk)
 {
-    return 1;
+    stack_element *traverser;
+    
+    while (stk->top) {
+        traverser = stk->top;
+        stk->top = stk->top->next;
+        free(traverser);
+    }
+    
+    free(stk);
 }
 
 int test_push()
@@ -19,12 +31,18 @@ int test_push()
     for (int i = 0; i < ARRAY_SIZE; i++)
         push(my_stack, numbs[i]);
 
+    int test_status = 0;
     stack_element *traverser = my_stack->top;
-    for (int i = 0; i < ARRAY_SIZE; i++) {
+    for (int i = ARRAY_SIZE-1; i > -1; i--) {
         if (traverser->number != numbs[i]) {
-            return test_failed();
+            test_status = 1;
+            break;
         }
+        traverser = traverser->next;
     }
+
+    free_memory(my_stack);
+    return test_status;
 }
 
 int main()
@@ -33,6 +51,13 @@ int main()
 
     printf("Test started\n");
     printf("-----------------\n");
+
+    if (test_push() == 1) {
+        printf(RED "Push test failed!\n" RESET);
+        return 1;
+    } else {
+        printf(GREEN "Push test successful\n" RESET );
+    }
 
     // dup(my_stack);
 
