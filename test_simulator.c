@@ -2,13 +2,15 @@
  * Test VM simulator
  */
 
-#include "simulator.c"
+#include "simulator.h"
 
 #define RESET "\033[0m"
 #define RED   "\033[31m"
 #define GREEN "\033[32m" 
 
 #define ARRAY_SIZE 5
+
+const int64_t numbs[ARRAY_SIZE] = {81, 15, -97, 1000, 59010};
 
 void free_memory(stack *stk)
 {
@@ -23,16 +25,13 @@ void free_memory(stack *stk)
     free(stk);
 }
 
-int test_push()
+int test_push(stack *stk)
 {
-    stack *my_stack = malloc(sizeof(stack));
-    const int64_t numbs[ARRAY_SIZE] = {81, 15, -97, 1000, 59010};
-
     for (int i = 0; i < ARRAY_SIZE; i++)
-        push(my_stack, numbs[i]);
+        push(stk, numbs[i]);
 
     int test_status = 0;
-    stack_element *traverser = my_stack->top;
+    stack_element *traverser = stk->top;
     for (int i = ARRAY_SIZE-1; i > -1; i--) {
         if (traverser->number != numbs[i]) {
             test_status = 1;
@@ -40,43 +39,75 @@ int test_push()
         }
         traverser = traverser->next;
     }
+    return test_status;
+}
 
-    free_memory(my_stack);
+int test_pop(stack *stk)
+{
+    stack_element *temp = stk->top;
+
+    int test_status = 0;
+    int max_pop_index = ARRAY_SIZE-3;
+    for (int i = ARRAY_SIZE-1; i > max_pop_index; i--)
+        if (pop(stk) != numbs[i]) {
+            test_status = 1;
+            break;
+        }
+
+    stack_element *traverser = stk->top;
+    for (int i = max_pop_index; i > -1; i--) {
+        if (traverser->number != numbs[i]) {
+            test_status = 1;
+            break;
+        }
+        traverser = traverser->next;
+    }
+
     return test_status;
 }
 
 int main()
 {
-    stack *my_stack = malloc(sizeof(stack));
-
+    stack *stk = malloc(sizeof(stack));
     printf("Test started\n");
     printf("-----------------\n");
 
-    if (test_push() == 1) {
+    if (test_push(stk) == 1) {
         printf(RED "Push test failed!\n" RESET);
+        free_memory(stk);
         return 1;
     } else {
-        printf(GREEN "Push test successful\n" RESET );
+        printf(GREEN "Push test successful\n" RESET);
     }
 
-    // dup(my_stack);
+    if (test_pop(stk) == 1) {
+        printf(RED "Pop test failed!\n" RESET);
+        free_memory(stk);
+        return 1;
+    } else {
+        printf(GREEN "Push test successful\n" RESET);
+    }
 
-    // push(my_stack, (int64_t)81);
-    // push(my_stack, (int64_t)15);
-    // push(my_stack, (int64_t)-97);
-    // push(my_stack, (int64_t)1000);
-    // push(my_stack, (int64_t)59010);
+    // dup(stk);
 
-    // dup(my_stack);
-    // print_stack(my_stack);
+    // push(stk, (int64_t)81);
+    // push(stk, (int64_t)15);
+    // push(stk, (int64_t)-97);
+    // push(stk, (int64_t)1000);
+    // push(stk, (int64_t)59010);
+
+    // dup(stk);
+    // print_stack(stk);
 
     // for (int i = 0; i < 6; i++) {
-    //     add(my_stack);
+    //     add(stk);
     //     printf("\n");
-    //     print_stack(my_stack);
+    //     print_stack(stk);
     // }
 
     // printf("\n");
-    // dup(my_stack);
-    // print_stack(my_stack);
+    // dup(stk);
+    // print_stack(stk);
+
+    free_memory(stk);
 }
