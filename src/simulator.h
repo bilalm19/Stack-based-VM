@@ -12,6 +12,9 @@
 // Will need to create buffer?
 // Will have to maintain a list of instruction entered by user
 
+#ifndef SIMULATOR_H
+#define SIMULATOR_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <inttypes.h>
@@ -117,3 +120,5 @@ void print_top(stack *stk)
 
     printf("%lld\n", stk->top->number);
 }
+
+#endif /* SIMULATOR_H */

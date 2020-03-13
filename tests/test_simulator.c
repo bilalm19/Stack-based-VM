@@ -88,6 +88,8 @@ int main()
         printf(GREEN "Push test successful\n" RESET);
     }
 
+    
+
     // dup(stk);
 
     // push(stk, (int64_t)81);
