@@ -22,8 +22,7 @@
 typedef struct stack stack;
 typedef struct stack_element stack_element;
 
-struct stack_element
-{
+struct stack_element {
     int64_t            number;
     stack_element      *next;
 };
@@ -103,7 +102,7 @@ void print_stack(stack *stk)
     stack_element *traverser = stk->top;
 
     while (traverser != NULL) {
-        printf("%lld\n", traverser->number);
+        printf("%ld\n", traverser->number);
         traverser = traverser->next;
     }
 }
@@ -118,7 +117,7 @@ void print_top(stack *stk)
         return;
     }
 
-    printf("%lld\n", stk->top->number);
+    printf("%ld\n", stk->top->number);
 }
 
 #endif /* SIMULATOR_H */

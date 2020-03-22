@@ -2,7 +2,7 @@
  * Test VM simulator
  */
 
-#include "simulator.h"
+#include "../src/stack.h"
 
 #define RESET "\033[0m"
 #define RED   "\033[31m"
