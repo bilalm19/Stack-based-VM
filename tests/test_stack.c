@@ -3,7 +3,27 @@
 
 START_TEST(test_new_element)
 {
-    printf("dawg");
+    stack_element *stk_elm1;
+    stack_element *stk_elm2;
+
+    stk_elm1 = create_stack_element(37);
+    stk_elm2 = create_stack_element(81);
+    ck_assert_uint_eq(stk_elm1->number, 37);
+    ck_assert_uint_eq(stk_elm2->number, 81);
+
+    stk_elm1->next = stk_elm2;
+    _ck_assert_ptr(stk_elm1->next, ==, stk_elm2);
+    ck_assert_ptr_null(stk_elm2->next);
+
+    free(stk_elm1);
+    free(stk_elm2);
+}
+END_TEST
+
+START_TEST(test_push)
+{
+    stack *stk = malloc(sizeof(stack));
+
 }
 END_TEST
 
