@@ -13,8 +13,6 @@ RUN groupadd --gid $USER_GID $USERNAME \
     && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 
-
-
 USER $USERNAME
 ENV DEBIAN_FRONTEND=
 
@@ -27,10 +25,11 @@ RUN sudo apt install -y cmake
 
 RUN sudo apt install -y pkg-config automake autoconf libtool check
 
-# RUN sudo wget https://github.com/libcheck/check/releases/download/0.14.0/check-0.14.0.tar.gz &&\
-#     sudo tar -xvf check-0.14.0.tar.gz &&\
-#     cd check-0.14.0 &&\
-#     sudo ./configure &&\
-#     sudo make &&\
-#     sudo make check &&\
-#     sudo make install
+RUN sudo wget https://github.com/libcheck/check/releases/download/0.14.0/check-0.14.0.tar.gz &&\
+    sudo tar -xvf check-0.14.0.tar.gz &&\
+    cd check-0.14.0 &&\
+    sudo ./configure &&\
+    sudo make &&\
+    sudo make check &&\
+    sudo make install &&\
+    cd .. && sudo rm -rf check-0.14.0 && sudo rm check-0.14.0.tar.gz
