@@ -1,0 +1,19 @@
+{
+  "name": "Stack VM",
+  "dockerFile": "Dockerfile",
+
+  "settings": { 
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  
+  "runArgs": [ 
+    "-u",
+    "vsdev",
+  ],
+
+  "extensions": [
+    "ms-vscode.cpptools",
+    "ms-vscode.cmake-tools",
+    "twxs.cmake",
+  ],
+}
