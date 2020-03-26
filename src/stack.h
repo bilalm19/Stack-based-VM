@@ -12,8 +12,8 @@
 // Will need to create buffer?
 // Will have to maintain a list of instruction entered by user
 
-#ifndef SIMULATOR_H
-#define SIMULATOR_H
+#ifndef STACK_H
+#define STACK_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,6 +42,13 @@ stack_element *create_stack_element(int64_t numb)
     new_element->number = numb;
     new_element->next = NULL;
     return new_element;
+}
+
+stack *initialize_stack(void)
+{
+    stack *stk = malloc(sizeof(stack));
+    stk->top = NULL;
+    return stk;
 }
 
 void push(stack *stk, int64_t numb)
@@ -121,4 +128,4 @@ void print_top(stack *stk)
     printf("%ld\n", stk->top->number);
 }
 
-#endif /* SIMULATOR_H */
+#endif /* STACK_H */

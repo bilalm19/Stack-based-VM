@@ -1,5 +1,13 @@
+#ifndef UTILITY_H
+#define UTILITY_H
+
 #include "../src/stack.h"
 
+/*
+ * Utility function which will free up the memory taken by stack.
+ * The pop function in stack can replace this, but that function
+ * can be assumed to be unstable relative to this.
+ */
 void free_memory(stack *stk)
 {
     stack_element *traverser;
@@ -12,3 +20,5 @@ void free_memory(stack *stk)
     
     free(stk);
 }
+
+#endif /* UTILITY_H */
