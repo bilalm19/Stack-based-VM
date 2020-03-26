@@ -40,6 +40,7 @@ stack_element *create_stack_element(int64_t numb)
 {
     stack_element *new_element = malloc(sizeof(stack_element));
     new_element->number = numb;
+    new_element->next = NULL;
     return new_element;
 }
 
