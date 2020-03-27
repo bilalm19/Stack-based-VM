@@ -5,10 +5,7 @@
  */
 
 // TODO:
-// user interface to interact with the simulator
-// following two instructions depend on interface:
-//      -> ifeq function
-//      -> jump function
+// Do not need user interface for now
 // Will need to create buffer?
 // Will have to maintain a list of instruction entered by user
 
@@ -139,7 +136,7 @@ void print_top(stack *stk)
  * traversals from top. It will return the stack_element where number of
  * traversals equals the `line_number`.
  */
-stack_element *jump(stack *stk, u_int64_t line_number)
+stack_element *jump(stack *stk, uint64_t line_number)
 {
     if (stk->top == NULL) {
         printf("Stack is empty\n");
@@ -162,6 +159,23 @@ stack_element *jump(stack *stk, u_int64_t line_number)
         traverser = traverser->next;
 
     return traverser;
+}
+
+/*
+ * Examine the top of the stack. If it's 0, continue, else, jump to line
+ * number.
+ */
+stack_element *ifeq(stack *stk, uint64_t line_number)
+{
+    if (stk->top == NULL) {
+        printf("Stack is empty\n");
+        return NULL;
+    }
+
+    if (stk->top->number != 0)
+        return jump(stk, line_number);
+
+    return NULL;
 }
 
 #endif /* STACK_H */

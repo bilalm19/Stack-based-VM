@@ -156,6 +156,33 @@ START_TEST(test_jump)
 }
 END_TEST
 
+START_TEST(test_ifeq)
+{
+    int64_t elms_count = 9;
+    stack *stk = initialize_stack();
+
+    ck_assert_ptr_null(ifeq(stk, elms_count));
+
+    for (int64_t i = 0; i < elms_count; i++)
+        push(stk, i);
+
+    stack_element *line;
+    for (int64_t i = 0; i < elms_count + 2; i++) {
+        line = ifeq(stk, i);
+        
+        if (i < elms_count + 1 && i > 0)
+            ck_assert_int_eq(line->number, elms_count - i);
+        else
+            ck_assert_ptr_null(line);
+    }
+
+    push(stk, 0);
+    ck_assert_ptr_null(ifeq(stk, 5));
+
+    free_memory(stk);
+}
+END_TEST
+
 Suite * money_suite(void)
 {
     Suite *s;
@@ -166,6 +193,7 @@ Suite * money_suite(void)
     TCase *tc_add;
     TCase *tc_dup;
     TCase *tc_jump;
+    TCase *tc_ifeq;
 
     s = suite_create("Stack");
 
@@ -196,6 +224,10 @@ Suite * money_suite(void)
     tc_jump = tcase_create("Jump");
     tcase_add_test(tc_jump, test_jump);
     suite_add_tcase(s, tc_jump);
+
+    tc_ifeq = tcase_create("IFEQ");
+    tcase_add_test(tc_ifeq, test_ifeq);
+    suite_add_tcase(s, tc_ifeq);
 
     return s;
 }
