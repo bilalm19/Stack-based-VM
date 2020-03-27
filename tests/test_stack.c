@@ -26,6 +26,7 @@ START_TEST(test_stack_initialization)
     stack *stk = initialize_stack();
     ck_assert_ptr_nonnull(stk);
     ck_assert_ptr_null(stk->top);
+    ck_assert_uint_eq(stk->element_count, 0);
 }
 END_TEST
 
@@ -33,14 +34,14 @@ START_TEST(test_push)
 {
     int64_t elms_count = 4;
     stack *stk = initialize_stack();
-
-
-    for (int64_t i = 0; i <= elms_count; i++)
+    
+    for (int64_t i = 0; i < elms_count; i++)
         push(stk, i);
 
+    ck_assert_uint_eq(stk->element_count, elms_count);
     stack_element *trav = stk->top;
     while (trav != NULL) {
-        ck_assert_int_eq(trav->number, elms_count--);
+        ck_assert_int_eq(trav->number, --elms_count);
         trav = trav->next;
     }
     free_memory(stk);
@@ -52,15 +53,19 @@ START_TEST(test_pop)
     int64_t elms_count = 4;
     stack *stk = initialize_stack();
 
-    for (int64_t i = 0; i <= elms_count; i++)
+    for (int64_t i = 0; i < elms_count; i++)
         push(stk, i);
 
-    while (stk->top != NULL)
-        ck_assert_int_eq(pop(stk), elms_count--);
+    while (stk->top != NULL){
+        ck_assert_uint_eq(stk->element_count, elms_count);
+        ck_assert_int_eq(pop(stk), --elms_count);
+    }
 
+    ck_assert_uint_eq(stk->element_count, 0);
 
-    // Test popping NULL top
+    /* Test popping NULL top */
     ck_assert_int_eq(pop(stk), 0);
+    ck_assert_uint_eq(stk->element_count, 0);
     free_memory(stk);
 
 }
@@ -71,15 +76,17 @@ START_TEST(test_add)
     int64_t elms_count = 4;
     stack *stk = initialize_stack();
 
-    // Test if add function does not crash if stack top is empty
+    /* Test if add function does not crash if stack top is empty */
     add(stk);
     ck_assert_ptr_null(stk->top);
+    ck_assert_uint_eq(stk->element_count, 0);
 
     for (int64_t i = 0; i <= elms_count; i++)
         push(stk, i);
 
     add(stk);
     ck_assert_int_eq(stk->top->number, elms_count + elms_count - 1);
+    ck_assert_uint_eq(stk->element_count, 4);
 
     int64_t total = 0;
     /* 
@@ -91,6 +98,7 @@ START_TEST(test_add)
         total += i;
     }
     
+    ck_assert_uint_eq(stk->element_count, 1);
     ck_assert_int_eq(stk->top->number, total);
     free_memory(stk);
 }
@@ -103,9 +111,11 @@ START_TEST(test_dup)
     dup(stk);
 
     ck_assert_ptr_null(stk->top);
+    ck_assert_uint_eq(stk->element_count, 0);
 
     push(stk, numbs[0]);
     dup(stk);
+    ck_assert_uint_eq(stk->element_count, 2);
 
     push(stk, numbs[2]);
     push(stk, numbs[3]);
@@ -115,6 +125,31 @@ START_TEST(test_dup)
     while (trav != NULL) {
         ck_assert_int_eq(trav->number, numbs[elms_count--]);
         trav = trav->next;
+    }
+    
+    ck_assert_uint_eq(stk->element_count, 4);
+
+    free_memory(stk);
+}
+END_TEST
+
+START_TEST(test_jump)
+{
+    int64_t elms_count = 7;
+    stack *stk = initialize_stack();
+    ck_assert_ptr_null(jump(stk, elms_count));
+
+    for (int64_t i = 0; i < elms_count; i++)
+        push(stk, i);
+
+    stack_element *line;
+    for (int64_t i = 0; i < elms_count + 2; i++) {
+        line = jump(stk, i);
+        
+        if (i < elms_count + 1 && i > 0)
+            ck_assert_int_eq(line->number, elms_count - i);
+        else
+            ck_assert_ptr_null(line);
     }
 
     free_memory(stk);
@@ -130,6 +165,7 @@ Suite * money_suite(void)
     TCase *tc_pop;
     TCase *tc_add;
     TCase *tc_dup;
+    TCase *tc_jump;
 
     s = suite_create("Stack");
 
@@ -156,6 +192,10 @@ Suite * money_suite(void)
     tc_dup = tcase_create("Dup");
     tcase_add_test(tc_dup, test_dup);
     suite_add_tcase(s, tc_dup);
+
+    tc_jump = tcase_create("Jump");
+    tcase_add_test(tc_jump, test_jump);
+    suite_add_tcase(s, tc_jump);
 
     return s;
 }

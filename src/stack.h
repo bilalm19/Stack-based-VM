@@ -23,8 +23,8 @@ typedef struct stack stack;
 typedef struct stack_element stack_element;
 
 struct stack_element {
-    int64_t            number;
-    stack_element      *next;
+    int64_t         number;
+    stack_element   *next;
 };
 
 /* 
@@ -32,8 +32,8 @@ struct stack_element {
  * at the top most element. 
  */
 struct stack {
-    stack_element      *top;
-
+    stack_element   *top;
+    uint64_t        element_count;
 };
 
 stack_element *create_stack_element(int64_t numb)
@@ -47,18 +47,22 @@ stack_element *create_stack_element(int64_t numb)
 stack *initialize_stack(void)
 {
     stack *stk = malloc(sizeof(stack));
-    stk->top = NULL; // make sure no garbage value is assigned by compiler
+
+    /* make sure no garbage value is assigned by compiler */
+    stk->top = NULL;
+    stk->element_count = 0;
     return stk;
 }
 
 void push(stack *stk, int64_t numb)
 {
     stack_element *new_element = create_stack_element(numb);
-    
+
     if (stk->top != NULL) 
         new_element->next = stk->top;
     
     stk->top = new_element;
+    stk->element_count++;
 }
 
 int64_t pop(stack *stk)
@@ -70,7 +74,9 @@ int64_t pop(stack *stk)
         save_numb = marked_for_deletion->number; /* Save marked's number */
 
         stk->top = stk->top->next;
-        free(marked_for_deletion);    
+        free(marked_for_deletion);
+
+        stk->element_count--;
     }
     
     return save_numb;
@@ -99,7 +105,7 @@ void dup(stack *stk)
         return;
     }
 
-    push(stk, stk->top->number);    
+    push(stk, stk->top->number);
 }
 
 /* 
@@ -126,6 +132,36 @@ void print_top(stack *stk)
     }
 
     printf("%ld\n", stk->top->number);
+}
+
+/*
+ * Jump to a line with number `line_number`. The number is the number of
+ * traversals from top. It will return the stack_element where number of
+ * traversals equals the `line_number`.
+ */
+stack_element *jump(stack *stk, u_int64_t line_number)
+{
+    if (stk->top == NULL) {
+        printf("Stack is empty\n");
+        return NULL;
+    }
+
+    if (stk->element_count < line_number) {
+        printf("Line number exceeds number of elements in stack\n");
+        return NULL;
+    }
+
+    if (line_number == 0) {
+        printf("0 is an illegal line number\n");
+        return NULL;
+    }
+
+    stack_element *traverser = stk->top;
+    
+    while (line_number-- != 1)
+        traverser = traverser->next;
+
+    return traverser;
 }
 
 #endif /* STACK_H */
