@@ -32,7 +32,7 @@ END_TEST
 START_TEST(test_push)
 {
     int64_t elms_count = 4;
-    stack *stk = malloc(sizeof(stack));
+    stack *stk = initialize_stack();
 
 
     for (int64_t i = 0; i <= elms_count; i++)
@@ -50,7 +50,7 @@ END_TEST
 START_TEST(test_pop)
 {
     int64_t elms_count = 4;
-    stack *stk = malloc(sizeof(stack));
+    stack *stk = initialize_stack();
 
     for (int64_t i = 0; i <= elms_count; i++)
         push(stk, i);
@@ -69,7 +69,7 @@ END_TEST
 START_TEST(test_add)
 {
     int64_t elms_count = 4;
-    stack *stk = malloc(sizeof(stack));
+    stack *stk = initialize_stack();
 
     // Test if add function does not crash if stack top is empty
     add(stk);
@@ -92,6 +92,32 @@ START_TEST(test_add)
     }
     
     ck_assert_int_eq(stk->top->number, total);
+    free_memory(stk);
+}
+END_TEST
+
+START_TEST(test_dup)
+{
+    int64_t numbs[4] = {90, 90, 88, 12};
+    stack *stk = initialize_stack();
+    dup(stk);
+
+    ck_assert_ptr_null(stk->top);
+
+    push(stk, numbs[0]);
+    dup(stk);
+
+    push(stk, numbs[2]);
+    push(stk, numbs[3]);
+
+    int64_t elms_count = 3;
+    stack_element *trav = stk->top;
+    while (trav != NULL) {
+        ck_assert_int_eq(trav->number, numbs[elms_count--]);
+        trav = trav->next;
+    }
+
+    free_memory(stk);
 }
 END_TEST
 
@@ -103,6 +129,7 @@ Suite * money_suite(void)
     TCase *tc_push;
     TCase *tc_pop;
     TCase *tc_add;
+    TCase *tc_dup;
 
     s = suite_create("Stack");
 
@@ -125,6 +152,10 @@ Suite * money_suite(void)
     tc_add = tcase_create("Add");
     tcase_add_test(tc_add, test_add);
     suite_add_tcase(s, tc_add);
+
+    tc_dup = tcase_create("Dup");
+    tcase_add_test(tc_dup, test_dup);
+    suite_add_tcase(s, tc_dup);
 
     return s;
 }

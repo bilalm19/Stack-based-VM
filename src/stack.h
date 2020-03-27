@@ -47,7 +47,7 @@ stack_element *create_stack_element(int64_t numb)
 stack *initialize_stack(void)
 {
     stack *stk = malloc(sizeof(stack));
-    stk->top = NULL;
+    stk->top = NULL; // make sure no garbage value is assigned by compiler
     return stk;
 }
 
