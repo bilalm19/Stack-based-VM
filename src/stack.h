@@ -4,11 +4,6 @@
  * answer.
  */
 
-// TODO:
-// Do not need user interface for now
-// Will need to create buffer?
-// Will have to maintain a list of instruction entered by user
-
 #ifndef STACK_H
 #define STACK_H
 
