@@ -1,0 +1,17 @@
+name: Test_Suit
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: build environment
+    runs_on: ubuntu-18.04
+    steps:
+      - name: cmake
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          ls
