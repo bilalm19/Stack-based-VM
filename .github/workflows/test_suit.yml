@@ -13,4 +13,4 @@ jobs:
       - name: test
         run: |
           docker build -t bilalmahmood19/test:stackVM-1.0 .
-          docker push bilalmahmood19/test:stackVM-1.0 .
+          docker push bilalmahmood19/test:stackVM-1.0
