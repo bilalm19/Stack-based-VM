@@ -11,7 +11,4 @@ jobs:
     steps:
       - name: cmake
         run: |
-          mkdir build
-          cd build
-          cmake ..
           ls
