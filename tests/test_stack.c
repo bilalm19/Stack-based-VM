@@ -183,7 +183,7 @@ START_TEST(test_ifeq)
 }
 END_TEST
 
-Suite * money_suite(void)
+Suite * stack_suite(void)
 {
     Suite *s;
     TCase *tc_core;
@@ -230,19 +230,4 @@ Suite * money_suite(void)
     suite_add_tcase(s, tc_ifeq);
 
     return s;
-}
-
-int main(void)
-{
-    int number_failed;
-    Suite *s;
-    SRunner *sr;
-
-    s = money_suite();
-    sr = srunner_create(s);
-
-    srunner_run_all(sr, CK_NORMAL);
-    number_failed = srunner_ntests_failed(sr);
-    srunner_free(sr);
-    return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

@@ -36,7 +36,7 @@ IF(NOT CHECK_FOUND)
 ENDIF(NOT CHECK_FOUND)
 
 set(TEST_SOURCES
-    test_stack.c
+	main.c
 )
 
 # Create test executable

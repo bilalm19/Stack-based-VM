@@ -1,6 +1,6 @@
 #include "user_interface.h"
 
-int main(void)
+void get_user_input(void)
 {
     if (fgets(line, sizeof(line), stdin)) {
         printf("DAWG: %s\n", line);
