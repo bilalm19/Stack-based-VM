@@ -16,9 +16,9 @@ RUN wget https://github.com/libcheck/check/releases/download/0.14.0/check-0.14.0
 
 WORKDIR /workspace
 
-COPY ./src ./tests/ ./Dockerfile ./CMakeLists.txt ./
+COPY . ./
 
-RUN mkdir build &&\
+RUN ls -a && mkdir build &&\
     cd build &&\
     cmake .. && make &&\
     ./tests/check
