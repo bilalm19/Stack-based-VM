@@ -9,7 +9,11 @@ jobs:
     name: build environment
     runs-on: ubuntu-18.04
     steps:
-      - name: cmake
+      - uses: actions/checkout@v1
+      - name: test
         run: |
-          mkdir build
           ls
+          mkdir build
+          cd build
+          cmake .. && make
+          ./test/check
