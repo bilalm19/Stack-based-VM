@@ -11,4 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: test
-        run: docker build -t stack-vm:1.0 .
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/test:stackVM-1.0 .
+          docker push ${{ secrets.DOCKER_USERNAME }}/test:stackVM-1.0 .
