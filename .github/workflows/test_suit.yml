@@ -11,9 +11,4 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: test
-        run: |
-          ls
-          mkdir build
-          cd build
-          cmake .. && make
-          ./test/check
+        run: docker build -t stack-vm:1.0 .
