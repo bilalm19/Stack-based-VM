@@ -8,7 +8,6 @@
 #include "stack.h"
 
 #define BUFFER 256
-
-char line[BUFFER];
+#define ERROR "error"
 
 #endif /* USER_INTERFACE_H */

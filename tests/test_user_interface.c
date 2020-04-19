@@ -3,7 +3,20 @@
 
 START_TEST(test_get_user_input)
 {
-    ck_assert_int_eq(0, 1);
+    freopen("../tests/fake_input.txt", "r", stdin);
+    char str[BUFFER] = "";
+    
+    get_user_input(str);
+    ck_assert_str_eq(str, "short input");
+
+    get_user_input(str);
+    ck_assert_str_eq(str, "error");
+
+    get_user_input(str);
+    ck_assert_str_eq(str, "\"apostrophes\"");
+ 
+    get_user_input(str);
+    ck_assert_str_eq(str, "coe+20");
 }
 END_TEST
 
