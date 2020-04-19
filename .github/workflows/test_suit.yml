@@ -17,3 +17,4 @@ jobs:
           docker build -t bilalmahmood19/test:stackVM-1.0 .
           echo ${DOCKER_PWD} | docker login -u bilalmahmood19 --password-stdin
           docker push bilalmahmood19/test:stackVM-1.0
+          docker logout
