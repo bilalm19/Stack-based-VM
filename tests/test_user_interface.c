@@ -3,7 +3,7 @@
 
 START_TEST(test_get_user_input)
 {
-    ck_assert_int_eq(0, 0);
+    ck_assert_int_eq(0, 1);
 }
 END_TEST
 
