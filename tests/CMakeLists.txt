@@ -1,5 +1,6 @@
 # Create executable for running test cases
 
+include_directories(${CMAKE_SOURCE_DIR}/src)
 
 INCLUDE(FindPkgConfig)
 

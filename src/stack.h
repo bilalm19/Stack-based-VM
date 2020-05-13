@@ -173,4 +173,17 @@ stack_element *ifeq(stack *stk, uint64_t line_number)
     return NULL;
 }
 
+void free_stack(stack *stk)
+{
+    stack_element *traverser;
+    
+    while (stk->top) {
+        traverser = stk->top;
+        stk->top = stk->top->next;
+        free(traverser);
+    }
+    
+    free(stk);
+}
+
 #endif /* STACK_H */

@@ -1,5 +1,5 @@
 #include <check.h>
-#include "../src/user_interface.c"
+#include "user_interface.c"
 
 START_TEST(test_get_user_input)
 {
@@ -20,6 +20,12 @@ START_TEST(test_get_user_input)
 }
 END_TEST
 
+START_TEST(test_user_interface)
+{
+    freopen("../tests/fake_user.txt", "r", stdin);
+    interface();
+}
+END_TEST
 Suite * interface_suite(void)
 {
     Suite *s = suite_create("User Interface");
@@ -27,6 +33,7 @@ Suite * interface_suite(void)
 
     suite_add_tcase(s, tc_chain);
     tcase_add_test(tc_chain, test_get_user_input);
+    tcase_add_test(tc_chain, test_user_interface);
 
     return s;
 }

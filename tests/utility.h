@@ -1,7 +1,7 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 
-#include "../src/stack.h"
+#include "stack.h"
 
 /*
  * Utility function which will free up the memory taken by stack.
