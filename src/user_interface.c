@@ -9,6 +9,10 @@ void set_clean(char *str)
     memset(str, 0, BUFFER);
 }
 
+/*
+ * Used for manual debugging. Not intended to be used when running
+ * app.
+*/
 void print_string(char *str)
 {
     for (int i = 0; i < strlen(str) - 1; i++)
@@ -17,6 +21,9 @@ void print_string(char *str)
     printf("\n");
 }
 
+/*
+ * Safely get user input without overflowing buffer.
+ */
 void get_user_input(char *str)
 {
     char line[BUFFER];
@@ -25,7 +32,8 @@ void get_user_input(char *str)
 
     char *fp = fgets(line, sizeof(line), stdin);
     if (fp) {
-         if (line[strlen(line)-1] != '\n') {
+        if (line[strlen(line)-1] != '\n') {
+            // Clean stdin if huge input.
             while (fgets(line, sizeof(line), stdin) &&
                 line[strlen(line)-1] != '\n');
             printf("Error!! Input too long\n");
@@ -68,16 +76,23 @@ void interface(void)
                 c_status = EXIT;
                 break;
             case 49:
+                get_user_input(user_i->user_input);
+                push(user_i->i_stack, strtol(user_i->user_input, NULL, 10));
                 break;
             case 50:
+                pop(user_i->i_stack);
                 break;
             case 51:
+                add(user_i->i_stack);
                 break;
             case 52:
+                dup(user_i->i_stack);
                 break;
             case 53:
+                print_top(user_i->i_stack);
                 break;
             case 54:
+                print_stack(user_i->i_stack);
                 break;
         }
         printf("\n");

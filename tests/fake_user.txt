@@ -1,2 +1,18 @@
-1
-0
+2 pop
+1 push next number
+23
+2 pop
+1 push next number
+19
+5 print top
+1 push next number
+899
+5 print top
+6 print stack
+4 duplicate top
+6 print stack
+3 add top
+6 print stack
+2 pop
+6 print stack
+0 exit
