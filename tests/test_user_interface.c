@@ -6,17 +6,20 @@ START_TEST(test_get_user_input)
     freopen("../tests/fake_input.txt", "r", stdin);
     char str[BUFFER] = "";
     
-    get_user_input(str);
-    ck_assert_str_eq(str, "short input");
-
-    get_user_input(str);
+    ck_assert_int_eq(get_user_input(str), 0);
     ck_assert_str_eq(str, "error");
 
-    get_user_input(str);
-    ck_assert_str_eq(str, "\"apostrophes\"");
+    ck_assert_int_eq(get_user_input(str), 1);
+    ck_assert_str_eq(str, "40");
+
+    ck_assert_int_eq(get_user_input(str), 0);
+    ck_assert_str_eq(str, "error");
+
+    ck_assert_int_eq(get_user_input(str), 0);
+    ck_assert_str_eq(str, "error");
  
-    get_user_input(str);
-    ck_assert_str_eq(str, "coe+20");
+    ck_assert_int_eq(get_user_input(str), 0);
+    ck_assert_str_eq(str, "error");
 }
 END_TEST
 

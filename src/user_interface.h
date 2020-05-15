@@ -5,6 +5,7 @@
 #ifndef USER_INTERFACE_H
 #define USER_INTERFACE_H
 
+#include <ctype.h>
 #include "stack.h"
 
 #define BUFFER 256

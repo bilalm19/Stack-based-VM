@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <inttypes.h>
+#include <string.h>
 
 typedef struct stack stack;
 typedef struct stack_element stack_element;

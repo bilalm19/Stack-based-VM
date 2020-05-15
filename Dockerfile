@@ -22,3 +22,8 @@ RUN ls -a && mkdir build &&\
     cd build &&\
     cmake .. && make &&\
     ./tests/check
+
+RUN mv ./build/src/app . &&\
+    rm -rf build src tests CMakeLists.txt
+
+ENTRYPOINT ["bash", "run_app.sh"]

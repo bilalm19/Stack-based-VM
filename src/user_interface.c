@@ -22,9 +22,21 @@ void print_string(char *str)
 }
 
 /*
+ * Check if input is int.
+ */
+int check_int(char *str)
+{
+    for (int i = 0; i < strlen(str) - 1; i++) {
+        if (!isdigit(str[i]))
+            return 0;
+    }
+    return 1;
+}
+
+/*
  * Safely get user input without overflowing buffer.
  */
-void get_user_input(char *str)
+int get_user_input(char *str)
 {
     char line[BUFFER];
     set_clean(line);
@@ -38,11 +50,16 @@ void get_user_input(char *str)
                 line[strlen(line)-1] != '\n');
             printf("Error!! Input too long\n");
             strncpy(str, ERROR, strlen(ERROR));
-            return;
+            return 0;
          }
+        if (!check_int(line)){
+            strncpy(str, ERROR, strlen(ERROR));
+            return 0;
+        }
     }
 
     strncpy(str, line, strlen(line) - 1);
+    return 1;
 }
 
 void free_interface_memory(u_interface *user_i)
@@ -76,8 +93,11 @@ void interface(void)
                 c_status = EXIT;
                 break;
             case 49:
-                get_user_input(user_i->user_input);
-                push(user_i->i_stack, strtol(user_i->user_input, NULL, 10));
+                printf("Enter number to push: ");
+                if (get_user_input(user_i->user_input))
+                    push(user_i->i_stack, strtol(user_i->user_input, NULL, 10));
+                else
+                    printf("Wrong input\n");
                 break;
             case 50:
                 pop(user_i->i_stack);
@@ -93,6 +113,9 @@ void interface(void)
                 break;
             case 54:
                 print_stack(user_i->i_stack);
+                break;
+            default:
+                printf("Wrong input\n");
                 break;
         }
         printf("\n");
